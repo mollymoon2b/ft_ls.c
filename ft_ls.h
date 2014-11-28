@@ -6,7 +6,7 @@
 /*   By: ade-bonn <ade-bonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/25 11:38:44 by ade-bonn          #+#    #+#             */
-/*   Updated: 2014/11/25 11:38:45 by ade-bonn         ###   ########.fr       */
+/*   Updated: 2014/11/28 12:51:53 by ade-bonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct		s_size
 
 char				*ft_path_steve(char *path);
 int					ft_time(t_steve **list, t_steve *tmp2, t_opts *opts);
+int					ft_time2(t_steve **list, t_steve *tmp2, t_opts *opt);
 void				fs(t_steve **list, char *name, char *path, t_opts *opts);
 void				ft_find(char *path, t_steve **list, t_opts *opts, int rec);
 

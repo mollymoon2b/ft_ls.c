@@ -6,7 +6,7 @@
 /*   By: ade-bonn <ade-bonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/25 09:10:28 by ade-bonn          #+#    #+#             */
-/*   Updated: 2014/11/25 14:24:18 by ade-bonn         ###   ########.fr       */
+/*   Updated: 2014/11/28 12:54:14 by ade-bonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,26 @@ char	*ft_path_steve(char *path)
 	return (path);
 }
 
+int		ft_time2(t_steve **list, t_steve *tmp2, t_opts *opt)
+{
+	t_steve			*tmp;
+	struct stat		info;
+
+	tmp = *list;
+	stat(tmp2->path, &info);
+	if (tmp == NULL)
+	{
+		*list = tmp2;
+	}
+	else if ((opt->t == 1 && info.st_mtime > tmp->time)
+				|| (opt->t == 0 && ft_strcmp(tmp2->file, tmp->file) < 0))
+	{
+		tmp2->next = *list;
+		*list = tmp2;
+	}
+	return (0);
+}
+
 int		ft_time(t_steve **list, t_steve *tmp2, t_opts *opt)
 {
 	t_steve		*tmp;
@@ -37,17 +57,7 @@ int		ft_time(t_steve **list, t_steve *tmp2, t_opts *opt)
 
 	tmp = *list;
 	stat(tmp2->path, &info);
-	if (tmp == NULL)
-	{
-		*list = tmp2;
-		return (0);
-	}
-	else if ((opt->t == 1 && info.st_mtime > tmp->time)
-				|| (opt->t == 0 && ft_strcmp(tmp2->file, tmp->file) < 0))
-	{
-		*list = tmp2;
-		return (0);
-	}
+	ft_time2(list, tmp2, opt);
 	while (tmp->next != NULL)
 	{
 		if ((opt->t == 1 && info.st_mtime > tmp->next->time)
@@ -58,7 +68,7 @@ int		ft_time(t_steve **list, t_steve *tmp2, t_opts *opt)
 			return (0);
 		}
 		tmp = tmp->next;
-	} 
+	}
 	return (1);
 }
 

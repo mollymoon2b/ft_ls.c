@@ -57,7 +57,7 @@ void	ft_add_ls_l(t_steve *list, t_opts *opt, t_size *space)
 {
 	while (list != NULL)
 	{
-		if (opt->a == 0 && list->file[0] != '.')
+		if (opt->a == 1 || list->file[0] != '.')
 		{
 			ft_putstr(list->access);
 			ft_add_space(space->link, ft_itoa(list->link), 1);
