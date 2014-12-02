@@ -6,7 +6,7 @@
 /*   By: ade-bonn <ade-bonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/25 09:11:01 by ade-bonn          #+#    #+#             */
-/*   Updated: 2014/11/25 14:13:19 by ade-bonn         ###   ########.fr       */
+/*   Updated: 2014/12/02 04:40:29 by ade-bonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ void	ft_init_space(t_steve *list, t_size **space)
 	(*space)->date = 0;
 	while (list != NULL)
 	{
-		(*space)->link = ((*space)->link < ft_strlen(ft_itoa(list->link)) + 2
+		(*space)->link = ((*space)->link < ft_strlen(ft_itoa(list->link))
 				? ft_strlen(ft_itoa(list->link)) : (*space)->link);
-		(*space)->uid = ((*space)->uid < ft_strlen(list->user) + 1
+		(*space)->uid = ((*space)->uid < ft_strlen(list->user)
 				? ft_strlen(list->user) : (*space)->uid);
-		(*space)->guid = ((*space)->guid < ft_strlen(list->group) + 2
+		(*space)->guid = ((*space)->guid < ft_strlen(list->group)
 				? ft_strlen(list->group) : (*space)->guid);
-		(*space)->space = ((*space)->link < ft_strlen(ft_itoa(list->space)) + 2
+		(*space)->space = ((*space)->link < ft_strlen(ft_itoa(list->space))
 				? ft_strlen(ft_itoa(list->space)) : (*space)->space);
-		(*space)->date = ((*space)->date < ft_strlen(list->date) + 1
+		(*space)->date = ((*space)->date < ft_strlen(list->date)
 				? ft_strlen(list->date) : (*space)->date);
 		list = list->next;
 	}
@@ -63,8 +63,8 @@ void	ft_add_ls_l(t_steve *list, t_opts *opt, t_size *space)
 			ft_add_space(space->link, ft_itoa(list->link), 1);
 			ft_add_space(space->uid, list->user, 0);
 			ft_add_space(space->guid, list->group, 1);
-			ft_add_space(space->space, ft_itoa(list->space), 1);
-			ft_add_space(space->date, list->date, 0);
+			ft_add_space(space->space, ft_itoa(list->space), 2);
+			ft_add_space(space->date, list->date, -1);
 			ft_add_space_endl(list->file);
 		}
 		list = list->next;
@@ -92,6 +92,5 @@ void	ft_l(t_steve *list, t_opts *opt)
 	ft_putnbr(total);
 	ft_putchar('\n');
 	ft_init_space(list, &space);
-	ft_r(&list, opt);
 	ft_add_ls_l(list, opt, space);
 }

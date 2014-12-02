@@ -48,9 +48,12 @@ void		ft_ls_date(t_steve *list, struct stat info)
 
 	date = ctime(&(info.st_mtime));
 	if ((t = time(&t)) > info.st_mtime)
-		list->date = ft_strsub(date, 4, 12);
+		list->date = ft_strsub(date, 3, 13);
 	else
-		list->date = ft_strjoin(ft_strsub(date, 4, 7), ft_strsub(date, 20, 4));
+	{
+		list->date = ft_strjoin(ft_strsub(date, 4, 7), " ");
+		list->date = ft_strjoin(list->date, ft_strsub(date, 20, 4));
+	}
 }
 
 void		ft_ls_l2(t_steve *list)

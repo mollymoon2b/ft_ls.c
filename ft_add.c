@@ -6,7 +6,7 @@
 /*   By: ade-bonn <ade-bonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/25 09:23:28 by ade-bonn          #+#    #+#             */
-/*   Updated: 2014/11/25 11:36:50 by ade-bonn         ###   ########.fr       */
+/*   Updated: 2014/12/02 04:44:23 by ade-bonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_add_gr(t_steve *list, t_opts *opt)
 	int		rec;
 	t_steve	*tmp;
 
-	rec = 1;
+	rec = 0;
 	while (list != NULL)
 	{
 		tmp = NULL;
@@ -43,11 +43,6 @@ void	ft_add_gr(t_steve *list, t_opts *opt)
 			ft_putstr(list->path);
 			ft_putendl(":");
 			ft_find(list->path, &tmp, opt, rec);
-			if (opt->l)
-				ft_l(tmp, opt);
-			else
-				ft_ls(tmp, opt);
-			ft_add_gr(tmp, opt);
 		}
 		list = list->next;
 	}
@@ -55,13 +50,12 @@ void	ft_add_gr(t_steve *list, t_opts *opt)
 
 void	ft_add_ls(t_steve *list, t_opts *opt)
 {
+	if (opt->r)
+		ft_r(&list, opt);
 	if (opt->l)
 		ft_l(list, opt);
 	else
-	{
-		ft_r(&list, opt);
 		ft_ls(list, opt);
-	}
 	if (opt->gr)
 		ft_add_gr(list, opt);
 }

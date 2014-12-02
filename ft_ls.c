@@ -6,7 +6,7 @@
 /*   By: ade-bonn <ade-bonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/25 09:10:28 by ade-bonn          #+#    #+#             */
-/*   Updated: 2014/11/28 12:54:14 by ade-bonn         ###   ########.fr       */
+/*   Updated: 2014/12/02 04:00:36 by ade-bonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,38 @@ char	*ft_path_steve(char *path)
 
 int		ft_time2(t_steve **list, t_steve *tmp2, t_opts *opt)
 {
-	t_steve			*tmp;
-	struct stat		info;
+	t_steve	*tmp;
 
 	tmp = *list;
-	stat(tmp2->path, &info);
 	if (tmp == NULL)
 	{
 		*list = tmp2;
+		return (0);
 	}
-	else if ((opt->t == 1 && info.st_mtime > tmp->time)
+	else if ((opt->t == 1 && (tmp2->time > tmp->time
+				|| (tmp2->time == tmp->time
+				&& ft_strcmp(tmp2->file, tmp->file) < 0)))
 				|| (opt->t == 0 && ft_strcmp(tmp2->file, tmp->file) < 0))
 	{
 		tmp2->next = *list;
 		*list = tmp2;
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int		ft_time(t_steve **list, t_steve *tmp2, t_opts *opt)
 {
 	t_steve		*tmp;
-	struct stat	info;
 
 	tmp = *list;
-	stat(tmp2->path, &info);
-	ft_time2(list, tmp2, opt);
+	if (ft_time2(list, tmp2, opt) == 0)
+		return (0);
 	while (tmp->next != NULL)
 	{
-		if ((opt->t == 1 && info.st_mtime > tmp->next->time)
+		if ((opt->t == 1 && (tmp2->time > tmp->next->time
+			|| (tmp2->time == tmp->next->time
+			&& ft_strcmp(tmp2->file, tmp->next->file) < 0)))
 			|| (opt->t == 0 && ft_strcmp(tmp2->file, tmp->next->file) < 0))
 		{
 			tmp2->next = tmp->next;
@@ -109,7 +112,7 @@ void	ft_find(char *path, t_steve **list, t_opts *opt, int rec)
 	{
 		ft_putstr_fd("ls: ", 2);
 		ft_putstr_fd(path, 2);
-		ft_putendl_fd("usage: ls [-Ralrt] [file ...]", 2);
+		ft_putendl_fd(": No such file or directory", 2);
 		exit(1);
 	}
 	else

@@ -63,6 +63,7 @@ void	ft_ls_opt(char *arg, t_opts *opt, t_steve *list)
 	int	rec;
 
 	rec = 0;
+	list = NULL;
 	if (opt->opt == 0 && arg[0] != '-')
 		opt->opt = 1;
 	if (opt->opt)
