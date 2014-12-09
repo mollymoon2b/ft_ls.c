@@ -80,17 +80,28 @@ void	ft_l(t_steve *list, t_opts *opt)
 
 	total = 0;
 	space = NULL;
-	ft_ls_l(list);
-	tmp = list;
-	while (tmp != NULL)
+	if (ft_ls_l(list) == 0)
 	{
-		total = total + tmp->block;
-		tmp = tmp->next;
+		tmp = list;
+		while (tmp != NULL)
+		{
+			total = total + tmp->block;
+			tmp = tmp->next;
+		}
+			free(tmp);
+			ft_putstr("total ");
+			ft_putnbr(total);
+			ft_putchar('\n');
+			ft_init_space(list, &space);
+			ft_add_ls_l(list, opt, space);
 	}
-	free(tmp);
-	ft_putstr("total ");
-	ft_putnbr(total);
-	ft_putchar('\n');
-	ft_init_space(list, &space);
-	ft_add_ls_l(list, opt, space);
+	else
+		ft_putstr("");
+	while (list != NULL)
+	{
+		//printf("list->access[0] = %s  ", list->access);
+		//printf("list->file = %s  ", list->file);
+		//printf("list->path = %s\n", list->path);
+		list = list->next;
+	}
 }

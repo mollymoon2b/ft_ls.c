@@ -1,6 +1,6 @@
 NAME = ft_ls
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 INCLUDE = 
 SRC = ft_ls.c 				\
 	ft_ls_l.c  				\

@@ -22,7 +22,7 @@
 # include <grp.h>
 # include <sys/types.h>
 # include "libft/libft.h"
-
+# include <errno.h>
 typedef struct		s_steve
 {
 	char			*file;
@@ -37,6 +37,7 @@ typedef struct		s_steve
 	char			*access;
 	time_t			time;
 	blkcnt_t		block;
+	char 			readlink;
 }					t_steve;
 
 typedef struct		s_opts
@@ -66,8 +67,8 @@ void				ft_find(char *path, t_steve **list, t_opts *opts, int rec);
 
 void				ft_ls_access(t_steve *list, struct stat info);
 void				ft_ls_date(t_steve *list, struct stat info);
-void				ft_ls_l(t_steve *list);
-void				ft_ls_l2(t_steve *list);
+int				ft_ls_l(t_steve *list);
+void		ft_ls_l2(t_steve *list, struct stat	info);
 t_opts				*ft_init_opt(t_opts *opt);
 
 void				ft_opt_error(char *arg, t_opts *opt);

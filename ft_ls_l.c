@@ -15,6 +15,20 @@
 void		ft_ls_access(t_steve *list, struct stat info)
 {
 	list->access = (char *)malloc(sizeof(char) * 11);
+	if (S_ISREG(info.st_mode))
+		list->access[0] = '-';
+	if (S_ISLNK(info.st_mode))
+		list->access[0] = 'l';
+	if (S_ISDIR(info.st_mode))
+		list->access[0] = 'd';
+	if (S_ISSOCK(info.st_mode))
+		list->access[0] = 's';
+	if (S_ISFIFO(info.st_mode))
+		list->access[0] = 'p';
+	if (S_ISCHR(info.st_mode))
+		list->access[0] = 'c';
+	if (S_ISBLK(info.st_mode))
+		list->access[0] = 'b';
 	list->access[1] = (info.st_mode & S_IRUSR ? 'r' : '-');
 	list->access[2] = (info.st_mode & S_IWUSR ? 'w' : '-');
 	list->access[3] = (info.st_mode & S_IXUSR ? 'x' : '-');
@@ -25,20 +39,6 @@ void		ft_ls_access(t_steve *list, struct stat info)
 	list->access[8] = (info.st_mode & S_IWOTH ? 'w' : '-');
 	list->access[9] = (info.st_mode & S_IXOTH ? 'x' : '-');
 	list->access[10] = '\0';
-	if (S_ISREG(info.st_mode))
-		list->access[0] = '-';
-	else if (S_ISDIR(info.st_mode))
-		list->access[0] = 'd';
-	else if (S_ISLNK(info.st_mode))
-		list->access[0] = 'l';
-	else if (S_ISSOCK(info.st_mode))
-		list->access[0] = 's';
-	else if (S_ISFIFO(info.st_mode))
-		list->access[0] = 'p';
-	else if (S_ISCHR(info.st_mode))
-		list->access[0] = 'c';
-	else if (S_ISBLK(info.st_mode))
-		list->access[0] = 'b';
 }
 
 void		ft_ls_date(t_steve *list, struct stat info)
@@ -56,11 +56,8 @@ void		ft_ls_date(t_steve *list, struct stat info)
 	}
 }
 
-void		ft_ls_l2(t_steve *list)
+void		ft_ls_l2(t_steve *list, struct stat	info)
 {
-	struct stat	info;
-
-	lstat(list->path, &info);
 	ft_ls_access(list, info);
 	ft_ls_date(list, info);
 	list->link = info.st_nlink;
@@ -70,26 +67,48 @@ void		ft_ls_l2(t_steve *list)
 	list->block = info.st_blocks;
 }
 
-void		ft_ls_l(t_steve *list)
+int		ft_ls_l(t_steve *list)
 {
 	struct stat	info;
+	t_steve		*tmp;
+	int ret;
+	struct passwd *lol;
 
-	while (list != NULL)
+	tmp = list;
+	while (tmp != NULL)
 	{
-		if (stat(list->path, &info) == 0)
+		if ((ret = lstat(tmp->path, &info)) == 0)
 		{
-			ft_ls_access(list, info);
-			ft_ls_date(list, info);
-			list->link = info.st_nlink;
-			list->user = ft_strdup((getpwuid(info.st_uid))->pw_name);
-			list->group = ft_strdup((getgrgid(info.st_gid))->gr_name);
-			list->space = info.st_size;
-			list->block = info.st_blocks;
+			ft_ls_access(tmp, info);
+			ft_ls_date(tmp, info);
+			tmp->link = info.st_nlink;
+			//lol=(char *)malloc(sizeof(char) * 10000);
+			//if (getpwuid(info.st_uid) == 0)
+			//	printf("ERROR GETPWUID\n");
+			//printf("---> %p %u\n", getpwuid(info.st_uid), info.st_uid);
+			//exit(0);
+			lol = getpwuid(info.st_uid);
+			if (lol == NULL)
+				tmp->user= ft_strdup(ft_itoa((int)info.st_uid));
+			else
+				tmp->user = ft_strdup(lol->pw_name);
+			//tmp->user = ft_strdup(lol);
+			tmp->group = ft_strdup((getgrgid(info.st_gid))->gr_name);
+			tmp->space = info.st_size;
+			tmp->block = info.st_blocks;
 		}
+		else if ((ret = lstat(tmp->path, &info)) == 0)
+			ft_ls_l2(tmp, info);
 		else
-			ft_ls_l2(list);
-		list = list->next;
+		{
+			ft_ls_access(tmp, info);
+			ft_putstr_fd("ls:", 2);
+			ft_putstr_fd(tmp->file, 2);
+			ft_putendl_fd(": Permission denied", 2);
+		}
+		tmp = tmp->next;
 	}
+	return (ret);
 }
 
 t_opts		*ft_init_opt(t_opts *opt)
