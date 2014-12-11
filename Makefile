@@ -1,13 +1,14 @@
 NAME = ft_ls
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror
 INCLUDE = 
 SRC = ft_ls.c 				\
 	ft_ls_l.c  				\
 	ft_option.c				\
 	ft_add.c 				\
 	ft_space.c 				\
-	main.c		 
+	main.c					\
+	ft_minifct.c	 
 
 OBJ = $(SRC:.c=.o)
 

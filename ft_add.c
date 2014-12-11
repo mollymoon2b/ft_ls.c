@@ -22,7 +22,6 @@ void	ft_ls(t_steve *list, t_opts *opt)
 			ft_putendl(list->file);
 		list = list->next;
 	}
-	free(list);
 }
 
 void	ft_add_gr(t_steve *list, t_opts *opt)
@@ -34,7 +33,7 @@ void	ft_add_gr(t_steve *list, t_opts *opt)
 	while (list != NULL)
 	{
 		tmp = NULL;
-		if (opt->l == 0)
+		if (opt->l == 1)
 			ft_ls_l(list);
 		if (list->access[0] == 'd' && ft_strcmp(list->file, ".") != 0
 			&& ft_strcmp(list->file, "..") != 0)

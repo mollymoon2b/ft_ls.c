@@ -56,8 +56,11 @@ void		ft_ls_date(t_steve *list, struct stat info)
 	}
 }
 
-void		ft_ls_l2(t_steve *list, struct stat	info)
+void		ft_ls_l2(t_steve *list)
 {
+	struct stat		info;
+
+	lstat(list->path, &info);
 	ft_ls_access(list, info);
 	ft_ls_date(list, info);
 	list->link = info.st_nlink;
@@ -67,46 +70,20 @@ void		ft_ls_l2(t_steve *list, struct stat	info)
 	list->block = info.st_blocks;
 }
 
-int		ft_ls_l(t_steve *list)
+int			ft_ls_l(t_steve *list)
 {
-	struct stat	info;
-	t_steve		*tmp;
-	int ret;
-	struct passwd *lol;
+	struct stat		info;
+	int				ret;
 
-	tmp = list;
-	while (tmp != NULL)
+	while (list != NULL)
 	{
-		if ((ret = lstat(tmp->path, &info)) == 0)
-		{
-			ft_ls_access(tmp, info);
-			ft_ls_date(tmp, info);
-			tmp->link = info.st_nlink;
-			//lol=(char *)malloc(sizeof(char) * 10000);
-			//if (getpwuid(info.st_uid) == 0)
-			//	printf("ERROR GETPWUID\n");
-			//printf("---> %p %u\n", getpwuid(info.st_uid), info.st_uid);
-			//exit(0);
-			lol = getpwuid(info.st_uid);
-			if (lol == NULL)
-				tmp->user= ft_strdup(ft_itoa((int)info.st_uid));
-			else
-				tmp->user = ft_strdup(lol->pw_name);
-			//tmp->user = ft_strdup(lol);
-			tmp->group = ft_strdup((getgrgid(info.st_gid))->gr_name);
-			tmp->space = info.st_size;
-			tmp->block = info.st_blocks;
-		}
-		else if ((ret = lstat(tmp->path, &info)) == 0)
-			ft_ls_l2(tmp, info);
+		if ((ret = lstat(list->path, &info)) == 0)
+			ft_ls_l3(list);
+		else if ((ret = lstat(list->path, &info)) == 0)
+			ft_ls_l2(list);
 		else
-		{
-			ft_ls_access(tmp, info);
-			ft_putstr_fd("ls:", 2);
-			ft_putstr_fd(tmp->file, 2);
-			ft_putendl_fd(": Permission denied", 2);
-		}
-		tmp = tmp->next;
+			ft_denied(list);
+		list = list->next;
 	}
 	return (ret);
 }

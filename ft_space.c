@@ -31,24 +31,21 @@ void	ft_add_space(int space, char *info, int i)
 
 void	ft_init_space(t_steve *list, t_size **space)
 {
-	*space = (t_size *)malloc(sizeof(t_size));
-	(*space)->link = 0;
-	(*space)->uid = 0;
-	(*space)->guid = 0;
-	(*space)->space = 0;
-	(*space)->date = 0;
+	ft_init_struct_space(space);
 	while (list != NULL)
 	{
-		(*space)->link = ((*space)->link < ft_strlen(ft_itoa(list->link))
-				? ft_strlen(ft_itoa(list->link)) : (*space)->link);
-		(*space)->uid = ((*space)->uid < ft_strlen(list->user)
-				? ft_strlen(list->user) : (*space)->uid);
-		(*space)->guid = ((*space)->guid < ft_strlen(list->group)
-				? ft_strlen(list->group) : (*space)->guid);
-		(*space)->space = ((*space)->link < ft_strlen(ft_itoa(list->space))
-				? ft_strlen(ft_itoa(list->space)) : (*space)->space);
-		(*space)->date = ((*space)->date < ft_strlen(list->date)
-				? ft_strlen(list->date) : (*space)->date);
+		if (list->link && list)
+			(*space)->link = ((*space)->link < ft_strlen(ft_itoa(list->link))
+					? ft_strlen(ft_itoa(list->link)) : (*space)->link);
+		ft_steve(list, space);
+		if (list->space && list)
+			(*space)->space = ((*space)->space < ft_strlen(ft_itoa(list->space))
+					? ft_strlen(ft_itoa(list->space)) : (*space)->space);
+		if (list->date && list)
+			(*space)->date = ((*space)->date < ft_strlen(list->date)
+					? ft_strlen(list->date) : (*space)->date);
+		else
+			list->date = ft_strdup("");
 		list = list->next;
 	}
 }
@@ -63,13 +60,12 @@ void	ft_add_ls_l(t_steve *list, t_opts *opt, t_size *space)
 			ft_add_space(space->link, ft_itoa(list->link), 1);
 			ft_add_space(space->uid, list->user, 0);
 			ft_add_space(space->guid, list->group, 1);
-			ft_add_space(space->space, ft_itoa(list->space), 2);
+			ft_add_space(space->space, ft_itoa(list->space), 1);
 			ft_add_space(space->date, list->date, -1);
 			ft_add_space_endl(list->file);
 		}
 		list = list->next;
 	}
-	free(list);
 }
 
 void	ft_l(t_steve *list, t_opts *opt)
@@ -88,20 +84,14 @@ void	ft_l(t_steve *list, t_opts *opt)
 			total = total + tmp->block;
 			tmp = tmp->next;
 		}
-			free(tmp);
-			ft_putstr("total ");
-			ft_putnbr(total);
-			ft_putchar('\n');
-			ft_init_space(list, &space);
-			ft_add_ls_l(list, opt, space);
+		free(tmp);
+		ft_putstr("total ");
+		ft_putnbr(total);
+		write(1, "\n", 1);
+		ft_init_space(list, &space);
+		write(1, "", 1);
+		ft_add_ls_l(list, opt, space);
 	}
-	else
-		ft_putstr("");
 	while (list != NULL)
-	{
-		//printf("list->access[0] = %s  ", list->access);
-		//printf("list->file = %s  ", list->file);
-		//printf("list->path = %s\n", list->path);
 		list = list->next;
-	}
 }
