@@ -111,15 +111,12 @@ void	ft_find(char *path, t_steve **list, t_opts *opt, int rec)
 	if ((dir = opendir(path)) == NULL)
 	{
 		if (errno == EACCES)
-		{
 			ft_permission(path);
-		}
 		else
 		{
 			ft_putstr_fd("ls: ", 2);
 			ft_putstr_fd(path, 2);
 			ft_putendl_fd(": No such file or directory", 2);
-			exit(1);
 		}
 	}
 	else

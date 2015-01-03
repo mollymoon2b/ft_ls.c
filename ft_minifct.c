@@ -67,13 +67,3 @@ void	ft_readlink(t_steve *list)
 		list->file = ft_strjoin(list->file, buf);
 	}
 }
-
-void	ft_init_struct_space(t_size **space)
-{
-	(*space) = (t_size *)malloc(sizeof(t_size));
-	(*space)->link = 0;
-	(*space)->uid = 0;
-	(*space)->guid = 0;
-	(*space)->space = 0;
-	(*space)->date = 0;
-}

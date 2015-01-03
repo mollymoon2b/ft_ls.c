@@ -75,23 +75,3 @@ void	ft_ls_opt(char *arg, t_opts *opt, t_steve *list)
 			ft_what_opt(arg, opt);
 	}
 }
-
-void	ft_steve(t_steve *list, t_size **space)
-{
-	struct passwd	*tmp;
-	struct group	*tmp2;
-	struct stat		info;
-
-	tmp = getpwuid(info.st_uid);
-	tmp2 = getgrgid(info.st_gid);
-	if (list->user && list)
-		(*space)->uid = ((*space)->uid < ft_strlen(list->user)
-				? ft_strlen(list->user) : (*space)->uid);
-	else
-		list->user = ft_strdup(tmp->pw_name);
-	if (list->group && list)
-		(*space)->guid = ((*space)->guid < ft_strlen(list->group)
-				? ft_strlen(list->group) : (*space)->guid);
-	else
-		list->group = ft_strdup(tmp2->gr_name);
-}

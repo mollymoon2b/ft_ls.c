@@ -77,7 +77,6 @@ t_opts				*ft_init_opt(t_opts *opt);
 void				ft_opt_error(char *arg, t_opts *opt);
 void				ft_what_opt(char *arg, t_opts *opt);
 void				ft_ls_opt(char *arg, t_opts *opt, t_steve *list);
-void				ft_steve(t_steve *list, t_size **space);
 
 void				ft_add_space_endl(char *str);
 void				ft_add_space(int space, char *info, int i);
@@ -95,5 +94,5 @@ void				ft_denied(t_steve *list);
 void				ft_ls_l3(t_steve *list);
 void				ft_readlink(t_steve *list);
 void				ft_permission(char *path);
-void				ft_init_struct_space(t_size **space);
+
 #endif

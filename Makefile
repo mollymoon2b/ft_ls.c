@@ -18,6 +18,7 @@ all : $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):
+	make -C libft
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC) -L libft -lft
 
 clean:

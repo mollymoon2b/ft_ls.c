@@ -20,32 +20,43 @@ void	ft_add_space_endl(char *str)
 
 void	ft_add_space(int space, char *info, int i)
 {
-	space = space - ft_strlen(info) + i;
-	while (space >= 0)
+	if (info != NULL)
 	{
-		ft_putchar(' ');
-		space--;
+		space = space - ft_strlen(info) + i;
+		while (space >= 0)
+		{
+			ft_putchar(' ');
+			space--;
+		}
+		ft_putstr(info);
 	}
-	ft_putstr(info);
 }
 
 void	ft_init_space(t_steve *list, t_size **space)
 {
-	ft_init_struct_space(space);
+	(*space) = (t_size *)malloc(sizeof(t_size));
+	(*space)->link = 0;
+	(*space)->uid = 0;
+	(*space)->guid = 0;
+	(*space)->space = 0;
+	(*space)->date = 0;
 	while (list != NULL)
 	{
-		if (list->link && list)
+		if (list->link)
 			(*space)->link = ((*space)->link < ft_strlen(ft_itoa(list->link))
-					? ft_strlen(ft_itoa(list->link)) : (*space)->link);
-		ft_steve(list, space);
-		if (list->space && list)
+				? ft_strlen(ft_itoa(list->link)) : (*space)->link);
+		if (list->space)
 			(*space)->space = ((*space)->space < ft_strlen(ft_itoa(list->space))
-					? ft_strlen(ft_itoa(list->space)) : (*space)->space);
-		if (list->date && list)
+				? ft_strlen(ft_itoa(list->space)) : (*space)->space);
+		if (list->date)
 			(*space)->date = ((*space)->date < ft_strlen(list->date)
-					? ft_strlen(list->date) : (*space)->date);
-		else
-			list->date = ft_strdup("");
+				? ft_strlen(list->date) : (*space)->date);
+		if (list->group)
+			(*space)->guid = ((*space)->guid < ft_strlen(list->group)
+				? ft_strlen(list->group) : (*space)->guid);
+		if (list->user)
+			(*space)->uid = ((*space)->uid < ft_strlen(list->user)
+				? ft_strlen(list->user) : (*space)->uid);
 		list = list->next;
 	}
 }
@@ -89,7 +100,6 @@ void	ft_l(t_steve *list, t_opts *opt)
 		ft_putnbr(total);
 		write(1, "\n", 1);
 		ft_init_space(list, &space);
-		write(1, "", 1);
 		ft_add_ls_l(list, opt, space);
 	}
 	while (list != NULL)

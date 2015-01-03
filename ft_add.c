@@ -33,7 +33,7 @@ void	ft_add_gr(t_steve *list, t_opts *opt)
 	while (list != NULL)
 	{
 		tmp = NULL;
-		if (opt->l == 1)
+		if (opt->l == 0)
 			ft_ls_l(list);
 		if (list->access[0] == 'd' && ft_strcmp(list->file, ".") != 0
 			&& ft_strcmp(list->file, "..") != 0)
