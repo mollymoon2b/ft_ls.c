@@ -6,7 +6,7 @@
 /*   By: ade-bonn <ade-bonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/25 09:10:48 by ade-bonn          #+#    #+#             */
-/*   Updated: 2014/11/25 09:10:49 by ade-bonn         ###   ########.fr       */
+/*   Updated: 2015/01/15 10:06:06 by ade-bonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,19 @@ void	ft_what_opt(char *arg, t_opts *opt)
 	}
 }
 
+void	ft_ls_4(t_steve *list, struct stat *info)
+{
+	if (list->access[0] == 'c' || list->access[0] == 'b')
+	{
+		list->space = major(info->st_rdev);
+		list->space2 = minor(info->st_rdev);
+	}
+	else
+		list->space = info->st_size;
+	list->block = info->st_blocks;
+	ft_major(list);
+}
+
 void	ft_ls_opt(char *arg, t_opts *opt, t_steve *list)
 {
 	int	rec;
@@ -74,4 +87,10 @@ void	ft_ls_opt(char *arg, t_opts *opt, t_steve *list)
 		if (opt->opt == 0)
 			ft_what_opt(arg, opt);
 	}
+}
+
+void	ft_major(t_steve *list)
+{
+	if (list->access[0] == 'l')
+		ft_readlink(list);
 }

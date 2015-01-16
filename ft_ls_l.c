@@ -66,7 +66,13 @@ void		ft_ls_l2(t_steve *list)
 	list->link = info.st_nlink;
 	list->user = ft_strdup((getpwuid(info.st_uid))->pw_name);
 	list->group = ft_strdup((getgrgid(info.st_gid))->gr_name);
-	list->space = info.st_size;
+	if (list->access[0] == 'c' || list->access[0] == 'b')
+	{
+		list->space = major(info.st_rdev);
+		list->space2 = minor(info.st_rdev);
+	}
+	else
+		list->space = info.st_size;
 	list->block = info.st_blocks;
 }
 

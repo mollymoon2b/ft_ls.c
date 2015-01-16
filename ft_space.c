@@ -6,7 +6,7 @@
 /*   By: ade-bonn <ade-bonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/25 09:11:01 by ade-bonn          #+#    #+#             */
-/*   Updated: 2014/12/02 04:40:29 by ade-bonn         ###   ########.fr       */
+/*   Updated: 2015/01/14 16:42:00 by ade-bonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,14 @@ void	ft_add_ls_l(t_steve *list, t_opts *opt, t_size *space)
 			ft_add_space(space->link, ft_itoa(list->link), 1);
 			ft_add_space(space->uid, list->user, 0);
 			ft_add_space(space->guid, list->group, 1);
-			ft_add_space(space->space, ft_itoa(list->space), 1);
+			if (list->access[0] == 'c' || list->access[0] == 'b')
+			{
+				ft_add_space(space->space, ft_itoa(list->space), 1);
+				ft_putstr(", ");
+				ft_add_space(space->space2, ft_itoa(list->space2), 2);
+			}
+			else
+				ft_access(list, space);
 			ft_add_space(space->date, list->date, -1);
 			ft_add_space_endl(list->file);
 		}

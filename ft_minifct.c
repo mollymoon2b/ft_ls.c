@@ -6,7 +6,7 @@
 /*   By: ade-bonn <ade-bonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/10 09:53:25 by ade-bonn          #+#    #+#             */
-/*   Updated: 2014/12/10 09:53:26 by ade-bonn         ###   ########.fr       */
+/*   Updated: 2015/01/14 16:41:46 by ade-bonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@ void	ft_permission(char *path)
 	ft_putendl_fd(": Permission denied", 2);
 }
 
+void	ft_access(t_steve *list, t_size *space)
+{
+	static int i = 0;
+
+	if (list->access[0] == 'c' || list->access[0] == 'b')
+		i = 1;
+	if (i == 1 && (list->access[0] != 'c' || list->access[0] != 'b'))
+		ft_add_space(space->space, ft_itoa(list->space), 1);
+	else
+	{
+		ft_putstr("     ");
+		ft_add_space(space->space, ft_itoa(list->space), 1);
+	}
+	i = 0;
+}
+
 void	ft_ls_l3(t_steve *list)
 {
 	struct stat		info;
@@ -49,10 +65,7 @@ void	ft_ls_l3(t_steve *list)
 		list->group = ft_strdup(ft_itoa((int)info.st_gid));
 	else
 		list->group = ft_strdup(tmp2->gr_name);
-	list->space = info.st_size;
-	list->block = info.st_blocks;
-	if (list->access[0] == 'l')
-		ft_readlink(list);
+	ft_ls_4(list, &info);
 }
 
 void	ft_readlink(t_steve *list)
