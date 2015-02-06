@@ -75,14 +75,11 @@ void				ft_ls_date(t_steve *list, struct stat info);
 int					ft_ls_l(t_steve *list);
 void				ft_ls_l2(t_steve *list);
 t_opts				*ft_init_opt(t_opts *opt);
-void				ft_access(t_steve *list, t_size *space);
-void				ft_major(t_steve *list);
-void				ft_essai(t_steve *list, struct stat *info);
+//void				ft_minor(t_steve *list);
 
 void				ft_opt_error(char *arg, t_opts *opt);
 void				ft_what_opt(char *arg, t_opts *opt);
 void				ft_ls_opt(char *arg, t_opts *opt, t_steve *list);
-void				ft_ls_4(t_steve *list, struct stat *info);
 
 void				ft_add_space_endl(char *str);
 void				ft_add_space(int space, char *info, int i);

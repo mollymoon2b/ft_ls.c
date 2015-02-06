@@ -63,6 +63,8 @@ void	ft_init_space(t_steve *list, t_size **space)
 
 void	ft_add_ls_l(t_steve *list, t_opts *opt, t_size *space)
 {
+	static int i = 0;
+
 	while (list != NULL)
 	{
 		if (opt->a == 1 || list->file[0] != '.')
@@ -71,6 +73,8 @@ void	ft_add_ls_l(t_steve *list, t_opts *opt, t_size *space)
 			ft_add_space(space->link, ft_itoa(list->link), 1);
 			ft_add_space(space->uid, list->user, 0);
 			ft_add_space(space->guid, list->group, 1);
+
+
 			if (list->access[0] == 'c' || list->access[0] == 'b')
 			{
 				ft_add_space(space->space, ft_itoa(list->space), 1);
@@ -78,9 +82,24 @@ void	ft_add_ls_l(t_steve *list, t_opts *opt, t_size *space)
 				ft_add_space(space->space2, ft_itoa(list->space2), 2);
 			}
 			else
-				ft_access(list, space);
-			ft_add_space(space->date, list->date, -1);
-			ft_add_space_endl(list->file);
+			{
+
+				if (list->access[0] == 'c' || list->access[0] == 'b')
+					i = 1;
+				if (i == 1 && (list->access[0] != 'c' || list->access[0] != 'b'))
+				{	
+					ft_add_space(space->space, ft_itoa(list->space), 1);
+				}
+				else
+				{
+					ft_putstr("     ");
+					ft_add_space(space->space, ft_itoa(list->space), 1);
+				}
+				i = 0;
+			}
+		
+		ft_add_space(space->date, list->date, -1);
+		ft_add_space_endl(list->file);
 		}
 		list = list->next;
 	}

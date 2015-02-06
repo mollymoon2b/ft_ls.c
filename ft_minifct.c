@@ -29,21 +29,10 @@ void	ft_permission(char *path)
 	ft_putendl_fd(": Permission denied", 2);
 }
 
-void	ft_access(t_steve *list, t_size *space)
-{
-	static int i = 0;
-
-	if (list->access[0] == 'c' || list->access[0] == 'b')
-		i = 1;
-	if (i == 1 && (list->access[0] != 'c' || list->access[0] != 'b'))
-		ft_add_space(space->space, ft_itoa(list->space), 1);
-	else
-	{
-		ft_putstr("     ");
-		ft_add_space(space->space, ft_itoa(list->space), 1);
-	}
-	i = 0;
-}
+//void	ft_minor(t_steve *list)
+//{
+	
+//}
 
 void	ft_ls_l3(t_steve *list)
 {
@@ -65,7 +54,16 @@ void	ft_ls_l3(t_steve *list)
 		list->group = ft_strdup(ft_itoa((int)info.st_gid));
 	else
 		list->group = ft_strdup(tmp2->gr_name);
-	ft_ls_4(list, &info);
+	if (list->access[0] == 'c' || list->access[0] == 'b')
+	{
+		list->space = major(info.st_rdev);
+		list->space2 = minor(info.st_rdev);
+	}
+	else
+		list->space = info.st_size;
+	list->block = info.st_blocks;
+	if (list->access[0] == 'l')
+		ft_readlink(list);
 }
 
 void	ft_readlink(t_steve *list)
